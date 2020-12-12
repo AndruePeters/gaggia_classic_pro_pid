@@ -27,6 +27,14 @@ C++ Skeleton for the ESP platform
 * Rotary encoder driver
 * PID algorithm
 
+## Steps
+1) Develop PID algorithm
+2) Develop rotary encoder driver
+3) Develop temperature sensor driver
+4) Attempt simulating with PID
+5) Develop display driver
+6) Get LVGL to work with display
+7) Combine all for finished product
 
 ### Links
 https://protofusion.org/wordpress/2019/02/gaggia-classic-seamless-pid-upgrade/comment-page-1/?unapproved=806734&moderation-hash=bb7ce05928096aa19418bb35727e8a61#comment-806734
