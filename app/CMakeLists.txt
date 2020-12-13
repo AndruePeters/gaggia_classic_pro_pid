@@ -1,3 +1,19 @@
+# Andrue Peters
+# 12/13/2020
+
+# Start the build process
+# For some currently unknown reason, this function must be with add_executable()
+idf_build_process(esp32
+        # try and trim the build; additional components
+        # will be included as needed based on dependency tree
+        #
+        # although esptool_py does not generate static library,
+        # processing the component is needed for flashing related
+        # targets and file generation
+        COMPONENTS esp32 freertos esptool_py
+        SDKCONFIG ${CMAKE_CURRENT_LIST_DIR}/sdkconfig
+        BUILD_DIR ${CMAKE_BINARY_DIR})
+
 set(elf_file ${CMAKE_PROJECT_NAME}.elf)
 add_executable(${elf_file} main.cpp)
 
