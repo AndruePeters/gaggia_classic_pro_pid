@@ -1,9 +1,9 @@
 /// Andrue Peters
 ///
-/// This file is taken from the main Espressif blink example
-/// but has been adapted. Its current form has some test PID
-/// code, but this will eventually be the main app pulling
-/// all code together.
+/// Simulate the boiler on the Gaggia Classic Pro in order to do a crude
+/// tuning of PID parameters. The boiler is assumed to be a linear piecewise
+/// function where it is always heating or cooling. I might fix it up slightly
+/// to include some nature of duty-cycle
 
 /// Project Includes
 #include <pid.h>
@@ -11,13 +11,13 @@
 
 /// C++ Includes
 #include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <limits>
 #include <thread>
 
+using namespace std::chrono_literals;
 int main() {
-
-
     /// Set up the PIDController object
     PIDController<float> pid(203);
     pid.setDerivativeCoefficient(15);
@@ -45,7 +45,8 @@ int main() {
     float outMin = std::numeric_limits<float>::max();
     float outMax = std::numeric_limits<float>::min();
     float runningTotal = 0;
-    float avg = 0;
+    float tempRunningTotal = 0;
+
 
     /// Main while loop
     while (true) {
@@ -66,12 +67,15 @@ int main() {
         outMin = std::min(outMin, out);
         outMax = std::max(outMax, out);
         runningTotal += out;
+        tempRunningTotal += tempF;
         ++i;
 
         /// only evaluate every 1000 cycles
         if(i % 1000 == 0) {
-            const float avg = runningTotal / static_cast<float>(i);
-            printf("min: %f\tmax: %f\tavg: %f\n\t\ttemp:%f\n", outMin, outMax, avg, tempF);
+            const float avg = runningTotal / i;
+            const float avgTemp =  tempRunningTotal / i;
+            printf("min: %f\tmax: %f\tavg: %f\ttemp:%f\tavgTemp:%f\n", outMin, outMax, avg, tempF, avgTemp);
+            std::this_thread::sleep_for(2s);
         }
 
     }
