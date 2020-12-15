@@ -10,6 +10,7 @@ C++ Skeleton for the ESP platform
   * Rotary encoder + built-in push button
   * MAX31865 (SPI)
   * Steam button
+  * Current Sensor for brew switch
   
 * Output
   * 40 A SSR
