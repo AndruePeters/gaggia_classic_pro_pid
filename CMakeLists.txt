@@ -7,7 +7,10 @@ project(single_boiler_pid CXX C)
 # Include for ESP-IDF build system functions
 include($ENV{IDF_PATH}/tools/cmake/idf.cmake)
 
+add_subdirectory(src)
+
 # build the main app that will be programmed on the esp32
 add_subdirectory(app)
+
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
