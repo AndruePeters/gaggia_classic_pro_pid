@@ -10,6 +10,7 @@ C++ Skeleton for the ESP platform
   * Rotary encoder + built-in push button
   * MAX31865 (SPI)
   * Steam button
+  * Current Sensor for brew switch
   
 * Output
   * 40 A SSR
@@ -35,6 +36,23 @@ C++ Skeleton for the ESP platform
 5) Develop display driver
 6) Get LVGL to work with display
 7) Combine all for finished product
+
+## CLion and WSL Setup
+* Use this [script](https://github.com/abobija/idfx) to flash and monitor from WSL2 without USB support
+* Make sure IDF_PATH is setup in CLion's environmental variable list
+* CMake Variables
+  * -DIDF_PATH=/home/druep/Development/sdk/esp-idf  
+  * -DIDF_PYTHON_ENV_PATH=/home/druep/.espressif/python_env/idf4.3_py3.8_env -G Ninja 
+  * -DCMAKE_TOOLCHAIN_FILE=~/Development/sdk/esp-idf/tools/cmake/toolchain-esp32.cmake 
+  * -DTARGET=esp32
+  
+## Build Steps
+Building is fairly straightforward and uses CMake and your generator of choice
+If building for the ESP32, then make sure to pass the CMAKE_TOOLCHAIN_FILE variable
+You can also just use the ./scripts/build-esp32.sh
+
+You can build without specifying the toolchain, but it currently only builds some
+tests that don't rely on espressif toolchains.
 
 ### Links
 https://protofusion.org/wordpress/2019/02/gaggia-classic-seamless-pid-upgrade/comment-page-1/?unapproved=806734&moderation-hash=bb7ce05928096aa19418bb35727e8a61#comment-806734

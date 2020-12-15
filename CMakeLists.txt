@@ -11,6 +11,8 @@ add_subdirectory(src)
 
 # build the main app that will be programmed on the esp32
 add_subdirectory(app)
+add_subdirectory(external)
+add_subdirectory(tests)
 
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
