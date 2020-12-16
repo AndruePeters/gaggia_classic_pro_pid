@@ -46,6 +46,10 @@ C++ Skeleton for the ESP platform
   * -DCMAKE_TOOLCHAIN_FILE=~/Development/sdk/esp-idf/tools/cmake/toolchain-esp32.cmake 
   * -DTARGET=esp32
   
+I've had issues with CLion using the proper python interpreter. The Espressif toolchain sets up a virtual environment.
+Clion kept using /usr/bin/python. So, to fix this I just installed the required Python modules
+  /usr/bin/python -m pip install -r $IDF_PATH/requirements.txt
+  
 ## Build Steps
 Building is fairly straightforward and uses CMake and your generator of choice
 If building for the ESP32, then make sure to pass the CMAKE_TOOLCHAIN_FILE variable
