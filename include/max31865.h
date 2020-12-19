@@ -1,8 +1,11 @@
 #ifndef MAX31865_H
 #define MMAX31865_H
-
+/*
 #include <cstdint>
+#include <cmath>
 namespace max31865 {
+/// Lets use VSPI just for kicks
+/// DRDY is connected to GPIO22
 
 /// Addresses for the read registers
 enum struct register_read_address : uint8_t {
@@ -35,7 +38,7 @@ enum struct configuration_filter : uint8_t {
 /// Reads with 0xh
 /// Writes with 8xh
 
-/*
+
  * Configuration Register (00h)
  * D7 = BIAS - only really useful for one-shot
  * D6 = ConversionMode; 1 == automatic
@@ -44,12 +47,13 @@ enum struct configuration_filter : uint8_t {
  * D3+D2 = Fault Detection
  * D1 = Fault Status Clear
  * D0 = 50/60Hz filter; 1 == 50, 0 == 60
- */
 
-/*
+
+
  * RTD Resistance Registers
- */
 
+/// RREF for this resistor is 430 ohms
+///
 template <class TemperatureType>
 class MAX31865Controller {
     void setBias(bool biasState = true);
@@ -59,6 +63,24 @@ class MAX31865Controller {
     void clearFaultDetection(bool clearFault = true);
     void setFilter(configuration_filter = configuration_filter::hz60);
 
+    /// this equation is currently only valid for temperatures > 0*C
+    /// break this out later into its own class and test different methods for a wider range of temperatures
+    /// and performance from https://www.analog.com/media/en/technical-documentation/application-notes/AN709_0.pdf
+    TemperatureType toC()
+    {
+        const float a = 3.90830 * std::pow(10, -3);
+        const float b = -5.77500 * std::pow(10, -7);
+        const float c = 0; // only 0 for 0 <= T <= 850 [C]
+        const float Rt = 0; // call readRTD()
+        float z1 = -a;
+        float z2 = (a*a) - (4*b);
+        float z3 = (4*b) / R0;
+        float z4 = 2 * b;
+
+        float radicand = z2 + z3 * r;
+        return (z1 + radicand) / z4;
+    }
 };
+/*
 }
 #endif

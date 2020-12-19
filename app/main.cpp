@@ -11,16 +11,22 @@
 
 /// Espressif Includes
 #include "driver/gpio.h"
+#include "driver/spi_master.h"
+#include "driver/spi_common.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "sdkconfig.h"
 
 /// C++ Includes
 #include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <limits>
+#include <thread>
 
+#include <Max31865.h>
 
+using namespace std::chrono_literals;
 
 /// Use GPIO pin 2 to blink the LED
 gpio_num_t BLINK_GPIO = static_cast<gpio_num_t>(2);
@@ -48,58 +54,25 @@ void app_main(void) {
     pid.setIntegralCoefficient(60);
     pid.setProcessVariableCoefficient(4);
 
-    /// In house room temperature
-    float tempF = 70.0;
-
-    /// Treat the boiler has a piecewise-linear function with two different slopes
-    const float boilerHeat = 0.2;
-    const float boilerCool = -0.08;
-
-    /// Basic heatWater model
-    auto heatWater = [&](bool on, float dutyCycle = 1.0) {
-        if (on) {
-            tempF = tempF + boilerHeat * tempF * dutyCycle;
-        } else {
-            tempF = tempF + boilerCool * tempF;
-        }
-    };
-
-
-    /// Keep track of some statistics
-    float outMin = std::numeric_limits<float>::max();
-    float outMax = std::numeric_limits<float>::min();
-    float runningTotal = 0;
-    float avg = 0;
+    auto tempSensor = Max31865(12, 13, 14, 15);
+    max31865_config_t tempConfig = {};
+    tempConfig.autoConversion = true;
+    tempConfig.vbias = true;
+    tempConfig.filter = Max31865Filter::Hz60;
+    tempConfig.nWires = Max31865NWires::Three;
+    max31865_rtd_config_t rtdConfig = {};
+    rtdConfig.nominal = 100.0f;
+    rtdConfig.ref = 430.0f;
+    ESP_ERROR_CHECK(tempSensor.begin(tempConfig));
+    ESP_ERROR_CHECK(tempSensor.setRTDThresholds(0x2000, 0x2500));
 
     /// Main while loop
     while (true) {
-        /// count the number of samples
-        static int i = 0;
-
-        /// get the PID output value
-        float out = pid.getOutput(tempF);
-
-        /// a negative out means we need to heat water and positive cool it
-        if (out < 0) {
-            heatWater(true);
-        } else if (out > 0) {
-            heatWater(false);
-        }
-
-        /// update the stats
-        outMin = std::min(outMin, out);
-        outMax = std::max(outMax, out);
-        runningTotal += out;
-        ++i;
-
-        /// only evaluate every 1000 cycles
-        if(i % 1000 == 0) {
-            gpio_set_level(BLINK_GPIO, 0);
-            const float avg = runningTotal / static_cast<float>(i);
-            printf("min: %f\tmax: %f\tavg: %f\n\t\ttemp:%f\n", outMin, outMax, avg, tempF);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
-            gpio_set_level(BLINK_GPIO, 1);
-        }
-
+        uint16_t rtd;
+        Max31865Error fault = Max31865Error::NoError;
+        tempSensor.getRTD(&rtd, &fault);
+        const float temp = Max31865::RTDtoTemperature(rtd, rtdConfig);
+        printf("Temperature: %.2f C\n", temp);
+        std::this_thread::sleep_for(1s);
     }
 }
