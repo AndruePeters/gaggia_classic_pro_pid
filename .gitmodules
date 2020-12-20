@@ -1,3 +1,0 @@
-[submodule "external/ESP32-MAX31865"]
-	path = external/ESP32-MAX31865
-	url = https://github.com/jamieparkinson/ESP32-MAX31865
