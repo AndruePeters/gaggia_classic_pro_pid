@@ -71,6 +71,11 @@ void app_main(void) {
         uint16_t rtd;
         Max31865Error fault = Max31865Error::NoError;
         tempSensor.getRTD(&rtd, &fault);
+
+        if (fault != Max31865Error::NoError ) {
+            printf("Fault detected: %s\nClearing fault now.", tempSensor.errorToString(fault));
+            tempSensor.clearFault();
+        }
         const float temp = Max31865::RTDtoTemperature(rtd, rtdConfig);
         printf("Temperature: %.2f C\n", temp);
         std::this_thread::sleep_for(1s);
