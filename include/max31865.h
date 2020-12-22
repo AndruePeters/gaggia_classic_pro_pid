@@ -28,6 +28,22 @@ enum struct register_write_address : uint8_t {
     low_fault_threshold_lsb = 0x86,
 };
 
+ enum struct number_of_wires {
+    two = 0,
+    three = 1,
+    four = 0
+};
+
+ enum struct error {
+    none = 0,
+    voltage,
+    rtd_in_low,
+    ref_low,
+    ref_high,
+    rtd_low,
+    rtd_high
+ };
+
 /// Values for D0 of the Configuration register
 enum struct configuration_filter : uint8_t {
     hz60 = 0x00,
