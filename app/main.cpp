@@ -42,9 +42,9 @@ void app_main(void) {
     /* Set the GPIO as a push/pull output */
     gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
-    gpio_pad_select_gpio(GPIO_NUM_15);
+    /*gpio_pad_select_gpio(GPIO_NUM_15);
     gpio_set_direction(GPIO_NUM_15, GPIO_MODE_OUTPUT);
-    gpio_set_level(GPIO_NUM_15, 1);
+    gpio_set_level(GPIO_NUM_15, 1);*/
 
     spi_bus_config_t buscfg ={
             .mosi_io_num = 13,
@@ -66,11 +66,11 @@ void app_main(void) {
         .dummy_bits = 0,
         .mode = 1,
         .duty_cycle_pos = 0,
-        .cs_ena_pretrans = 0,
+        .cs_ena_pretrans = 16,
         .cs_ena_posttrans = 0,
         .clock_speed_hz = 30'000,
         .input_delay_ns = 0,
-        .spics_io_num = -1,
+        .spics_io_num = 15,
         .flags = SPI_DEVICE_HALFDUPLEX,
         .queue_size = 1,
         .pre_cb = nullptr,
@@ -92,20 +92,20 @@ void app_main(void) {
     ret = spi_bus_add_device(HSPI_HOST, &devcfg, &spi);
     ESP_ERROR_CHECK(ret);
 
-    gpio_set_level(GPIO_NUM_15, 0);
-    std::this_thread::sleep_for(1ms);
+    //gpio_set_level(GPIO_NUM_15, 0);
+    //std::this_thread::sleep_for(1ms);
     ret = spi_device_transmit(spi, &trans);
     ESP_ERROR_CHECK(ret);
-    gpio_set_level(GPIO_NUM_15, 1);
-    std::this_thread::sleep_for(1ms);
+    //gpio_set_level(GPIO_NUM_15, 1);
+    //std::this_thread::sleep_for(1ms);
 
     trans.tx_data[0] = 0x00;
     trans.length = 8;
     trans.flags |= SPI_TRANS_USE_RXDATA;
     trans.rxlength = 8;
 
-    gpio_set_level(GPIO_NUM_15, 0);
-    std::this_thread::sleep_for(1ms);
+    //gpio_set_level(GPIO_NUM_15, 0);
+    //std::this_thread::sleep_for(1ms);
     ret = spi_device_transmit(spi, &trans);
 
     printf("\n\nOriginal: %d\n\n", 0b11010000);
