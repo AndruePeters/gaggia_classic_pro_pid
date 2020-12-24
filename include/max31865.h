@@ -84,7 +84,6 @@ enum struct conversion_mode : uint8_t {
 
 /// RREF for this resistor is 430 ohms
 ///
-template <class TemperatureType>
 class Controller {
 
     const spi_device_interface_config_t& spiDeviceConfig;
@@ -122,9 +121,10 @@ public:
     /// this equation is currently only valid for temperatures > 0*C
     /// break this out later into its own class and test different methods for a wider range of temperatures
     /// and performance from https://www.analog.com/media/en/technical-documentation/application-notes/AN709_0.pdf
+    /*template <class TemperatureType>
     TemperatureType toC()
     {
-        /*const float a = 3.90830 * std::pow(10, -3);
+        const float a = 3.90830 * std::pow(10, -3);
         const float b = -5.77500 * std::pow(10, -7);
         const float c = 0; // only 0 for 0 <= T <= 850 [C]
         const float Rt = 0; // call readRTD()
@@ -134,13 +134,12 @@ public:
         float z4 = 2 * b;
 
         float radicand = z2 + z3 * r;
-        return (z1 + radicand) / z4; */
+        return (z1 + radicand) / z4;
         return 0;
-    }
+    } */
 
 };
 
-#include "max31865_impl.hpp"
 
 
 }

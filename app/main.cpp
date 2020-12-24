@@ -84,7 +84,7 @@ void app_main(void) {
     ret = spi_bus_add_device(HSPI_HOST, &devcfg, &spi);
     ESP_ERROR_CHECK(ret);
 
-    auto controller = max31865::Controller<float>(devcfg, spi);
+    auto controller = max31865::Controller(devcfg, spi);
     controller.writeRegister(max31865::register_write_address::configuration, 0b11010000);
 
     auto readConfig = controller.readRegister(max31865::register_read_address::configuration);
