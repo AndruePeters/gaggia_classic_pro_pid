@@ -7,7 +7,7 @@
 
 /// Project Includes
 #include <pid.h>
-
+#include <max31865.h>
 
 /// Espressif Includes
 #include "driver/gpio.h"
@@ -24,7 +24,8 @@
 #include <limits>
 #include <thread>
 
-#include <Max31865.h>
+
+
 
 using namespace std::chrono_literals;
 
@@ -38,41 +39,65 @@ void app_main(void);
 
 
 void app_main(void) {
-    /* Configure the IOMUX register for pad BLINK_GPIO (some pads are
-       muxed to GPIO on reset already, but some default to other
-       functions and need to be switched to GPIO. Consult the
-       Technical Reference for a list of pads and their default
-       functions.)
-    */
+
     gpio_pad_select_gpio(BLINK_GPIO);
     /* Set the GPIO as a push/pull output */
     gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);
 
-    /// Set up the PIDController object
-    PIDController<float> pid(203);
-    pid.setDerivativeCoefficient(15);
-    pid.setIntegralCoefficient(60);
-    pid.setProcessVariableCoefficient(4);
+    /*gpio_pad_select_gpio(GPIO_NUM_15);
+    gpio_set_direction(GPIO_NUM_15, GPIO_MODE_OUTPUT);
+    gpio_set_level(GPIO_NUM_15, 1);*/
 
-    auto tempSensor = Max31865(12, 13, 14, 15);
-    max31865_config_t tempConfig = {};
-    tempConfig.autoConversion = true;
-    tempConfig.vbias = true;
-    tempConfig.filter = Max31865Filter::Hz60;
-    tempConfig.nWires = Max31865NWires::Three;
-    max31865_rtd_config_t rtdConfig = {};
-    rtdConfig.nominal = 100.0f;
-    rtdConfig.ref = 430.0f;
-    ESP_ERROR_CHECK(tempSensor.begin(tempConfig));
-    ESP_ERROR_CHECK(tempSensor.setRTDThresholds(0x2000, 0x2500));
+    spi_bus_config_t buscfg ={
+            .mosi_io_num = 13,
+            .miso_io_num = 12,
+            .sclk_io_num = 14,
+            .quadwp_io_num = -1,
+            .quadhd_io_num = -1,
+            .max_transfer_sz = 32,
+    };
+
+
+    // Initialize the SPI bus
+    auto ret = spi_bus_initialize(HSPI_HOST, &buscfg, 0);
+    ESP_ERROR_CHECK(ret);
+
+    auto devcfg = spi_device_interface_config_t {
+        .command_bits = 0,
+        .address_bits = 0,
+        .dummy_bits = 0,
+        .mode = 1,
+        .duty_cycle_pos = 0,
+        .cs_ena_pretrans = 16,
+        .cs_ena_posttrans = 0,
+        .clock_speed_hz = 30'000,
+        .input_delay_ns = 0,
+        .spics_io_num = 15,
+        .flags = SPI_DEVICE_HALFDUPLEX,
+        .queue_size = 1,
+        .pre_cb = nullptr,
+        .post_cb = nullptr
+    };
+
+
+    spi_device_handle_t spi;
+    ret = spi_bus_add_device(HSPI_HOST, &devcfg, &spi);
+    ESP_ERROR_CHECK(ret);
+
+    auto controller = max31865::Controller<float>(devcfg, spi);
+    controller.writeRegister(max31865::register_write_address::configuration, 0b11010000);
+
+    auto readConfig = controller.readRegister(max31865::register_read_address::configuration);
+
+    printf("\n\nOriginal: %d\n\n", 0b11010000);
+    printf("\n\nResult: %d\n\n", readConfig);
+
+
+
 
     /// Main while loop
     while (true) {
-        uint16_t rtd;
-        Max31865Error fault = Max31865Error::NoError;
-        tempSensor.getRTD(&rtd, &fault);
-        const float temp = Max31865::RTDtoTemperature(rtd, rtdConfig);
-        printf("Temperature: %.2f C\n", temp);
+
         std::this_thread::sleep_for(1s);
     }
 }
