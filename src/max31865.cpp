@@ -7,6 +7,7 @@ namespace max31865
 Controller::Controller(const spi_device_interface_config_t &spiConfig, const spi_device_handle_t &spiHandle)
     : spiDeviceConfig(spiConfig), spiHandle(spiHandle)
 {
+
     /// the max31865 only supports spi modes of 1 and 3
     if (spiConfig.mode != 1 || spiConfig.mode != 3)
     {
