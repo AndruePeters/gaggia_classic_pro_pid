@@ -101,7 +101,7 @@ enum struct bias_state : uint8_t
  * D0 = 50/60Hz filter; 1 == 50, 0 == 60
  */
 
-///
+/// Goal is to have a transparent driver for the MAX31865
 class Controller
 {
     const spi_device_interface_config_t &spiDeviceConfig;
@@ -115,18 +115,18 @@ class Controller
     uint16_t rtdRegister = 0;
 
   public:
+    /// Read the contents of any register
+    /// Accpets all values in \enum register_read_address
     uint8_t readRegister(const register_read_address readAddress) const;
+
+    /// Write an 8-bit value to any register in \enum register_write_address
+    /// Does no validation on \p value
     void writeRegister(const register_write_address writeAddress, const uint8_t value);
 
-  public:
     ///
     /// \param spiConfig Already configured spi interface object
     /// \param spiHandle Handle to spi device
     Controller(const spi_device_interface_config_t &spiConfig, const spi_device_handle_t &spiHandle);
-
-    /// need to write config registers
-    /// need to read rtd registers
-    /// general read register method
 
     ///
     /// \param bias
@@ -152,7 +152,8 @@ class Controller
     ///
     void writeConfigurationSettings();
 
-    /// returns 0 if fault detected
+    /// Reads and combines the lsb and msb register for RTD
+    /// Combines the bits an shifts by 1 according to the documentation
     uint16_t readRTDResistanceRatio() const;
 
     /// Set the lsb's and msb's for the low and high threshold registers
