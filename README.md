@@ -3,14 +3,16 @@ PID interface for the Gaggia Classic Pro. Most likely will work on the Silvia as
 
 
 ## Current Status
-C++ Skeleton for the ESP platform
+PID example
+Currently working on finishing the MAX31865 driver
+Need to settle on a design for the fault
 
 ## ESP32 IO
 * Input
   * Rotary encoder + built-in push button
   * MAX31865 (SPI)
   * Steam button
-  * Current Sensor for brew switch
+  * Brew button
   
 * Output
   * 40 A SSR
@@ -45,6 +47,10 @@ C++ Skeleton for the ESP platform
   * -DIDF_PYTHON_ENV_PATH=/home/druep/.espressif/python_env/idf4.3_py3.8_env -G Ninja 
   * -DCMAKE_TOOLCHAIN_FILE=~/Development/sdk/esp-idf/tools/cmake/toolchain-esp32.cmake 
   * -DTARGET=esp32
+  
+I've had issues with CLion using the proper python interpreter. The Espressif toolchain sets up a virtual environment.
+Clion kept using /usr/bin/python. So, to fix this I just installed the required Python modules
+  /usr/bin/python -m pip install -r $IDF_PATH/requirements.txt
   
 ## Build Steps
 Building is fairly straightforward and uses CMake and your generator of choice

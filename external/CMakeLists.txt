@@ -8,3 +8,7 @@ include(ExternalProject)
 #        CMAKE_ARGS
 #            -DCMAKE_TOOLCHAIN_FILE=$ENV{IDF_PATH}/tools/cmake/toolchain-esp32.cmake
 #        )
+
+#add_library(maxController ${CMAKE_CURRENT_SOURCE_DIR}/ESP32-MAX31865/src/Max31865.cpp ${CMAKE_CURRENT_SOURCE_DIR}/ESP32-MAX31865/src/numerics.cpp)
+#target_include_directories(maxController PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ESP32-MAX31865/include/)
+#target_link_libraries(maxController PUBLIC idf::esp32 idf::freertos idf::spi_flash )
