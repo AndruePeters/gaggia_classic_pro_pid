@@ -3,14 +3,16 @@ PID interface for the Gaggia Classic Pro. Most likely will work on the Silvia as
 
 
 ## Current Status
-C++ Skeleton for the ESP platform
+PID example
+Currently working on finishing the MAX31865 driver
+Need to settle on a design for the fault
 
 ## ESP32 IO
 * Input
   * Rotary encoder + built-in push button
   * MAX31865 (SPI)
   * Steam button
-  * Current Sensor for brew switch
+  * Brew button
   
 * Output
   * 40 A SSR
