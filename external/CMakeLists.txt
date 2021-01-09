@@ -28,7 +28,7 @@ set(LVGL_SOURCES
 )
 
 add_library(lvgl STATIC ${LVGL_SOURCES} lv_conf.h)
-target_include_directories(lvgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/lvgl/src/)
+target_include_directories(lvgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lvgl/src/)
 #target_compile_definitions(lvgl PUBLIC "-DLV_CONF_INCLUDE_SIMPLE")
 
 if (CONFIG_LV_MEM_CUSTOM)
@@ -58,7 +58,9 @@ endif()
 
 
 # Now do TFT drivers
-set(lvgl_tft_driver_sources lvgl_esp32_drivers/lvgl_tft/disp_spi.c lvgl_esp32_drivers/lvgl_tft/disp_spi.c lvgl_esp32_drivers/lvgl_tft/ili9341.c)
+set(lvgl_tft_driver_sources
+        lvgl_esp32_drivers/lvgl_helpers.c          lvgl_esp32_drivers/lvgl_tft/disp_spi.c
+        lvgl_esp32_drivers/lvgl_tft/disp_driver.c  lvgl_esp32_drivers/lvgl_tft/ili9341.c)
 add_library(lvgl_tft_driver STATIC ${lvgl_tft_driver_sources})
 target_include_directories(lvgl_tft_driver PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(lvgl_tft_driver PRIVATE idf::esp32)
@@ -74,4 +76,6 @@ target_compile_definitions(lvgl_tft_driver PUBLIC
         -DCONFIG_LV_DISP_SPI_CLK=14
         -DCONFIG_LV_DISP_SPI_CS=15
         -DCONFIG_LV_ENABLE_BACKLIGHT_CONTROL=y
+        -DCONFIG_LV_TFT_DISPLAY_PROTOCOL_SPI
+        -DCONFIG_LV_TFT_DISPLAY_SPI_HSPI=y
         )

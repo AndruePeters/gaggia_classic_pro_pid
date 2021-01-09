@@ -2,6 +2,8 @@
 # 12/13/2020
 
 if(CMAKE_CROSSCOMPILING)
+    # build lv examples
+    add_subdirectory(lv_examples)
 
     # Start the build process
     # For some currently unknown reason, this function must be with add_executable()
@@ -19,7 +21,7 @@ if(CMAKE_CROSSCOMPILING)
 
     set(elf_file ${CMAKE_PROJECT_NAME}.elf)
     add_executable(${elf_file} main.cpp)
-    target_link_libraries(${elf_file} idf::esp32 idf::freertos idf::spi_flash  PIDController MAX31865Driver)
+    target_link_libraries(${elf_file} PUBLIC idf::esp32 idf::freertos idf::spi_flash  PIDController MAX31865Driver lvgl lvgl_tft_driver lvgl_examples)
 
     # Attach additional targets to the executable file for flashing,
     # linker script generation, partition_table generation, etc.

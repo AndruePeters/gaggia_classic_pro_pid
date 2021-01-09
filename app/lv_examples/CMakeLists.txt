@@ -1,0 +1,51 @@
+set(LVGL_EXAMPLES_SOURCES
+        ./lv_examples/src/assets/img_cogwheel_alpha16.c                                 ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_btn_bg_2.c         ./lv_examples/src/lv_ex_widgets/lv_ex_chart/lv_ex_chart_1.c
+        ./lv_examples/src/assets/img_cogwheel_argb.c                                    ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_btn_bg_3.c         ./lv_examples/src/lv_ex_widgets/lv_ex_chart/lv_ex_chart_2.c
+        ./lv_examples/src/assets/img_cogwheel_chroma_keyed.c                            ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_btn_bg_4.c         ./lv_examples/src/lv_ex_widgets/lv_ex_checkbox/lv_ex_checkbox_1.c
+        ./lv_examples/src/assets/img_cogwheel_indexed16.c                               ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_cloud.c            ./lv_examples/src/lv_ex_widgets/lv_ex_cont/lv_ex_cont_1.c
+        ./lv_examples/src/assets/img_cogwheel_rgb.c                                     ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_copy.c             ./lv_examples/src/lv_ex_widgets/lv_ex_cpicker/lv_ex_cpicker_1.c
+        ./lv_examples/src/assets/img_hand.c                                             ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_internet.c         ./lv_examples/src/lv_ex_widgets/lv_ex_cpicker/lv_ex_cpicker_2.c
+        ./lv_examples/src/assets/lv_font_montserrat_12_compr_az.c                       ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_mobile.c           ./lv_examples/src/lv_ex_widgets/lv_ex_dropdown/lv_ex_dropdown_1.c
+        ./lv_examples/src/assets/lv_font_montserrat_16_compr_az.c                       ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_no_internet.c      ./lv_examples/src/lv_ex_widgets/lv_ex_dropdown/lv_ex_dropdown_2.c
+        ./lv_examples/src/assets/lv_font_montserrat_28_compr_az.c                       ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_phone.c            ./lv_examples/src/lv_ex_widgets/lv_ex_gauge/lv_ex_gauge_1.c
+        ./lv_examples/src/lv_demo_benchmark/lv_demo_benchmark.c                         ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_print.c            ./lv_examples/src/lv_ex_widgets/lv_ex_gauge/lv_ex_gauge_2.c
+        ./lv_examples/src/lv_demo_keypad_encoder/lv_demo_keypad_encoder.c               ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_printer2.c         ./lv_examples/src/lv_ex_widgets/lv_ex_img/lv_ex_img_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_list_pause.c       ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_ready.c            ./lv_examples/src/lv_ex_widgets/lv_ex_img/lv_ex_img_2.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_list_play.c        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_scan.c             ./lv_examples/src/lv_ex_widgets/lv_ex_img/lv_ex_img_3.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_loop.c             ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_scan_example.c     ./lv_examples/src/lv_ex_widgets/lv_ex_imgbtn/imgbtn_blue.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_next.c             ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_setup.c            ./lv_examples/src/lv_ex_widgets/lv_ex_imgbtn/imgbtn_green.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_pause.c            ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_usb.c              ./lv_examples/src/lv_ex_widgets/lv_ex_imgbtn/lv_ex_imgbtn_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_play.c             ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_wave.c             ./lv_examples/src/lv_ex_widgets/lv_ex_keyboard/lv_ex_keyboard_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_prev.c             ./lv_examples/src/lv_demo_printer/lv_demo_printer.c                             ./lv_examples/src/lv_ex_widgets/lv_ex_label/lv_ex_label_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_btn_rnd.c              ./lv_examples/src/lv_demo_printer/lv_demo_printer_theme.c                       ./lv_examples/src/lv_ex_widgets/lv_ex_label/lv_ex_label_2.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_corner_left.c          ./lv_examples/src/lv_demo_stress/lv_demo_stress.c                               ./lv_examples/src/lv_ex_widgets/lv_ex_label/lv_ex_label_3.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_corner_right.c         ./lv_examples/src/lv_demo_widgets/lv_demo_widgets.c                             ./lv_examples/src/lv_ex_widgets/lv_ex_led/lv_ex_led_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_cover_1.c              ./lv_examples/src/lv_ex_get_started/lv_ex_get_started_1.c                       ./lv_examples/src/lv_ex_widgets/lv_ex_line/lv_ex_line_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_cover_2.c              ./lv_examples/src/lv_ex_get_started/lv_ex_get_started_2.c                       ./lv_examples/src/lv_ex_widgets/lv_ex_linemeter/lv_ex_linemeter_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_cover_3.c              ./lv_examples/src/lv_ex_get_started/lv_ex_get_started_3.c                       ./lv_examples/src/lv_ex_widgets/lv_ex_list/lv_ex_list_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_icon_1.c               ./lv_examples/src/lv_ex_style/lv_ex_style_1.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_msgbox/lv_ex_msgbox_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_icon_2.c               ./lv_examples/src/lv_ex_style/lv_ex_style_10.c                                  ./lv_examples/src/lv_ex_widgets/lv_ex_msgbox/lv_ex_msgbox_2.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_icon_3.c               ./lv_examples/src/lv_ex_style/lv_ex_style_11.c                                  ./lv_examples/src/lv_ex_widgets/lv_ex_obj/lv_ex_obj_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_icon_4.c               ./lv_examples/src/lv_ex_style/lv_ex_style_2.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_objmask/lv_ex_objmask_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_list_border.c          ./lv_examples/src/lv_ex_style/lv_ex_style_3.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_objmask/lv_ex_objmask_2.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_logo.c                 ./lv_examples/src/lv_ex_style/lv_ex_style_4.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_page/lv_ex_page_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_slider_knob.c          ./lv_examples/src/lv_ex_style/lv_ex_style_5.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_roller/lv_ex_roller_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_wave_bottom.c          ./lv_examples/src/lv_ex_style/lv_ex_style_6.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_slider/lv_ex_slider_1.c
+        ./lv_examples/src/lv_demo_music/assets/img_lv_demo_music_wave_top.c             ./lv_examples/src/lv_ex_style/lv_ex_style_7.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_slider/lv_ex_slider_2.c
+        ./lv_examples/src/lv_demo_music/assets/lv_demo_music_font_16_bold.c             ./lv_examples/src/lv_ex_style/lv_ex_style_8.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_spinbox/lv_ex_spinbox_1.c
+        ./lv_examples/src/lv_demo_music/lv_demo_music.c                                 ./lv_examples/src/lv_ex_style/lv_ex_style_9.c                                   ./lv_examples/src/lv_ex_widgets/lv_ex_spinner/lv_ex_spinner_1.c
+        ./lv_examples/src/lv_demo_music/lv_demo_music_list.c                            ./lv_examples/src/lv_ex_widgets/lv_ex_arc/lv_ex_arc_1.c                         ./lv_examples/src/lv_ex_widgets/lv_ex_switch/lv_ex_switch_1.c
+        ./lv_examples/src/lv_demo_music/lv_demo_music_main.c                            ./lv_examples/src/lv_ex_widgets/lv_ex_arc/lv_ex_arc_2.c                         ./lv_examples/src/lv_ex_widgets/lv_ex_table/lv_ex_table_1.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_icon_bright.c          ./lv_examples/src/lv_ex_widgets/lv_ex_bar/lv_ex_bar_1.c                         ./lv_examples/src/lv_ex_widgets/lv_ex_tabview/lv_ex_tabview_1.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_icon_eco.c             ./lv_examples/src/lv_ex_widgets/lv_ex_btn/lv_ex_btn_1.c                         ./lv_examples/src/lv_ex_widgets/lv_ex_textarea/lv_ex_textarea_1.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_icon_hue.c             ./lv_examples/src/lv_ex_widgets/lv_ex_btn/lv_ex_btn_2.c                         ./lv_examples/src/lv_ex_widgets/lv_ex_textarea/lv_ex_textarea_2.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_icon_pc.c              ./lv_examples/src/lv_ex_widgets/lv_ex_btnmatrix/lv_ex_btnmatrix_1.c             ./lv_examples/src/lv_ex_widgets/lv_ex_textarea/lv_ex_textarea_3.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_icon_tel.c             ./lv_examples/src/lv_ex_widgets/lv_ex_calendar/lv_ex_calendar_1.c               ./lv_examples/src/lv_ex_widgets/lv_ex_tileview/lv_ex_tileview_1.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_icon_wifi.c            ./lv_examples/src/lv_ex_widgets/lv_ex_canvas/lv_ex_canvas_1.c                   ./lv_examples/src/lv_ex_widgets/lv_ex_win/lv_ex_win_1.c
+        ./lv_examples/src/lv_demo_printer/images/lv_demo_printer_img_btn_bg_1.c         ./lv_examples/src/lv_ex_widgets/lv_ex_canvas/lv_ex_canvas_2.c
+        )
+add_library(lvgl_examples STATIC ${LVGL_EXAMPLES_SOURCES})
+target_include_directories(lvgl_examples PUBLIC lv_examples)
+target_link_libraries(lvgl_examples PRIVATE lvgl)
+target_compile_definitions(lvgl_examples PRIVATE -DCONFIG_LV_USE_DEMO_WIDGETS)
+
