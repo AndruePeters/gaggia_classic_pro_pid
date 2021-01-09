@@ -6,6 +6,8 @@ PID interface for the Gaggia Classic Pro. Most likely will work on the Silvia as
 PID example
 Currently working on finishing the MAX31865 driver
 Need to settle on a design for the fault
+Verified working display and display driver
+Need to design interface
 
 ## ESP32 IO
 * Input
