@@ -1,0 +1,6 @@
+[submodule "external/lvgl_esp32_drivers"]
+	path = external/lvgl_esp32_drivers
+	url = https://github.com/lvgl/lvgl_esp32_drivers.git
+[submodule "external/lvgl"]
+	path = external/lvgl
+	url = https://github.com/lvgl/lvgl
