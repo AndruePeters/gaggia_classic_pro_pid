@@ -22,6 +22,7 @@ if(CMAKE_CROSSCOMPILING)
     set(elf_file ${CMAKE_PROJECT_NAME}.elf)
     add_executable(${elf_file} main.cpp)
     target_link_libraries(${elf_file} PUBLIC idf::esp32 idf::freertos idf::spi_flash  PIDController MAX31865Driver lvgl lvgl_tft_driver lvgl_examples)
+    target_compile_definitions(${elf_file} PUBLIC -DCONFIG_LV_USE_DEMO_WIDGETS)
 
     # Attach additional targets to the executable file for flashing,
     # linker script generation, partition_table generation, etc.
