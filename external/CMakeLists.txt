@@ -1,5 +1,7 @@
 # This CMakeLists.txt is responsible for setting up external libraries
 
+
+
 # Set up LVGL
 set(LVGL_SOURCES
     lvgl/src/lv_core/lv_disp.c                              lvgl/src/lv_font/lv_font_montserrat_12_subpx.c          lvgl/src/lv_font/lv_font_unscii_8.c                     lvgl/src/lv_misc/lv_txt.c                               lvgl/src/lv_widgets/lv_label.c
@@ -27,8 +29,14 @@ set(LVGL_SOURCES
     lvgl/src/lv_font/lv_font_montserrat_12.c                lvgl/src/lv_font/lv_font_unscii_16.c                    lvgl/src/lv_misc/lv_templ.c                             lvgl/src/lv_widgets/lv_keyboard.c
 )
 
-add_library(lvgl STATIC ${LVGL_SOURCES} lv_conf.h)
-target_include_directories(lvgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lvgl/src/)
+add_library(lvgl STATIC ${LVGL_SOURCES})
+
+if (BUILD_LVGL_SIMULATION)
+    message("Using the simulation lv_conf.h")
+    target_include_directories(lvgl PUBLIC ${CMAKE_SOURCE_DIR}/simulation ${CMAKE_CURRENT_SOURCE_DIR}/lvgl/src/ ${CMAKE_CURRENT_SOURCE_DIR})
+else()
+    target_include_directories(lvgl PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lvgl/src/)
+endif()
 #target_compile_definitions(lvgl PUBLIC "-DLV_CONF_INCLUDE_SIMPLE")
 
 if (CONFIG_LV_MEM_CUSTOM)
@@ -56,7 +64,7 @@ if (CONFIG_LV_ATTRIBUTE_FAST_MEM_USE_IRAM)
 endif()
 
 
-
+if(CMAKE_CROSSCOMPILING)
 # Now do TFT drivers
 set(lvgl_tft_driver_sources
         lvgl_esp32_drivers/lvgl_helpers.c          lvgl_esp32_drivers/lvgl_tft/disp_spi.c
@@ -80,3 +88,4 @@ target_compile_definitions(lvgl_tft_driver PUBLIC
         -DCONFIG_LV_DISPLAY_USE_SPI_CS
         -DCONFIG_LV_ENABLE_BACKLIGHT_CONTROL
         )
+endif()

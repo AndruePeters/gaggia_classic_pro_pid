@@ -4,8 +4,10 @@ cmake_minimum_required(VERSION 3.5)
 
 project(single_boiler_pid CXX C)
 
-# Include for ESP-IDF build system functions
-include($ENV{IDF_PATH}/tools/cmake/idf.cmake)
+if (CMAKE_CROSSCOMPILING)
+    # Include for ESP-IDF build system functions
+    include($ENV{IDF_PATH}/tools/cmake/idf.cmake)
+endif()
 
 add_subdirectory(src)
 
@@ -14,7 +16,7 @@ add_subdirectory(app)
 add_subdirectory(external)
 add_subdirectory(tests)
 
-
+add_subdirectory(simulation)
 
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)

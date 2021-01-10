@@ -62,5 +62,8 @@ You can also just use the ./scripts/build-esp32.sh
 You can build without specifying the toolchain, but it currently only builds some
 tests that don't rely on espressif toolchains.
 
+## GUI Simulation
+It is possible to [*mostly] test the gui from Windows. To do so, the flag `-DBUILD_LVGL_SIMULATION=TRUE` should be passed to CMake
+
 ### Links
 https://protofusion.org/wordpress/2019/02/gaggia-classic-seamless-pid-upgrade/comment-page-1/?unapproved=806734&moderation-hash=bb7ce05928096aa19418bb35727e8a61#comment-806734
