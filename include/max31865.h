@@ -8,6 +8,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include <vector>
 
 /// Driver for the max31865 on the esp32 using the esp-idf SDK.
 /// Goal of this driver is to wrap only the max31865 functionality, temperature conversion will be a separate module
@@ -101,6 +102,15 @@ enum struct bias_state : uint8_t
  * D0 = 50/60Hz filter; 1 == 50, 0 == 60
  */
 
+enum struct Fault {
+    high_fault_threshold,
+    low_fault_threshold,
+    vrefin_gt_vbias,
+    vrefin_lt_vbias,
+    vrtdin_lt_vbias,
+    under_or_over_voltage
+};
+
 /// Goal is to have a transparent driver for the MAX31865
 class Controller
 {
@@ -161,6 +171,10 @@ class Controller
     void setRTDHighFaultThresholdLsb(uint8_t lsbThreshold);
     void setRTDLowFaultThresholdMsb(uint8_t msbThreshold);
     void setRTDLowFaultThresholdLsb(uint8_t lsbThreshold);
+
+    /// Return a list of set faults
+    std::vector<Fault> readFaults();
+
 };
 
 } // namespace max31865
