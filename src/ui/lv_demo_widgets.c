@@ -24,6 +24,7 @@
 static void controls_create(lv_obj_t * parent);
 static void visuals_create(lv_obj_t * parent);
 static void selectors_create(lv_obj_t * parent);
+static void settings_create(lv_obj_t * parent);
 static void slider_event_cb(lv_obj_t * slider, lv_event_t e);
 static void ta_event_cb(lv_obj_t * ta, lv_event_t e);
 static void kb_event_cb(lv_obj_t * ta, lv_event_t e);
@@ -33,7 +34,7 @@ static void linemeter_anim(lv_obj_t * linemeter, lv_anim_value_t value);
 static void gauge_anim(lv_obj_t * gauge, lv_anim_value_t value);
 static void table_event_cb(lv_obj_t * table, lv_event_t e);
 static void color_chg_event_cb(lv_obj_t * sw, lv_event_t e);
-
+static void slider_event_cb(lv_obj_t * slider, lv_event_t event);
 
 /**********************
  *  STATIC VARIABLES
@@ -42,9 +43,13 @@ static lv_obj_t * tv;
 static lv_obj_t * t1;
 static lv_obj_t * t2;
 static lv_obj_t * t3;
+static lv_obj_t * t4;
 static lv_obj_t * kb;
 
+static lv_obj_t * slider_label;
 static lv_style_t style_box;
+
+static lv_style_t temperatureText;
 
 /**********************
  *      MACROS
@@ -60,7 +65,7 @@ void lv_demo_widgets(void)
     if(LV_THEME_DEFAULT_INIT == lv_theme_material_init) {
         lv_disp_size_t disp_size = lv_disp_get_size_category(NULL);
         if(disp_size >= LV_DISP_SIZE_MEDIUM) {
-            lv_obj_set_style_local_pad_left(tv, LV_TABVIEW_PART_TAB_BG, LV_STATE_DEFAULT, LV_HOR_RES / 2);
+            lv_obj_set_style_local_pad_left(tv, LV_TABVIEW_PART_TAB_BG, LV_STATE_DEFAULT, LV_HOR_RES / 4);
             lv_obj_t * sw = lv_switch_create(lv_scr_act(), NULL);
             if(lv_theme_get_flags() & LV_THEME_MATERIAL_FLAG_DARK)
                 lv_switch_on(sw, LV_ANIM_OFF);
@@ -75,6 +80,8 @@ void lv_demo_widgets(void)
     t1 = lv_tabview_add_tab(tv, "Controls");
     t2 = lv_tabview_add_tab(tv, "Visuals");
     t3 = lv_tabview_add_tab(tv, "Selectors");
+    t4 = lv_tabview_add_tab(tv, "Settings");
+
 
 
     lv_style_init(&style_box);
@@ -85,6 +92,7 @@ void lv_demo_widgets(void)
     controls_create(t1);
     visuals_create(t2);
     selectors_create(t3);
+    settings_create(t4);
 }
 
 /**********************
@@ -382,6 +390,22 @@ static void visuals_create(lv_obj_t * parent)
     lv_task_create(bar_anim, 100, LV_TASK_PRIO_LOW, bar);
 }
 
+static void settings_create(lv_obj_t * parent)
+{
+    lv_page_set_scrl_layout(parent, LV_LAYOUT_PRETTY_TOP);
+    lv_style_init(&temperatureText);
+
+
+
+
+    float temp = 94.6;
+
+    lv_obj_t *label = lv_label_create(parent, NULL);
+    lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0);
+    lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
+    lv_label_set_text_fmt(label, "%.2f", temp);
+
+}
 
 static void selectors_create(lv_obj_t * parent)
 {
@@ -677,7 +701,7 @@ static void tab_changer_task_cb(lv_task_t * task)
 {
     uint16_t act = lv_tabview_get_tab_act(tv);
     act++;
-    if(act >= 3) act = 0;
+    if(act >= 4) act = 0;
 
     lv_tabview_set_tab_act(tv, act, LV_ANIM_ON);
 
@@ -690,6 +714,9 @@ static void tab_changer_task_cb(lv_task_t * task)
         break;
     case 2:
         tab_content_anim_create(t3);
+        break;
+    case 3:
+        tab_content_anim_create(t4);
         break;
     }
 }
