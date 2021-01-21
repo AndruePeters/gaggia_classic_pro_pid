@@ -88,7 +88,7 @@ uint16_t Controller::readRTDResistanceRatio() const
     }
 
     /// the first bit is a fault detection bit, so we need to shift this bit out
-    /// as indicitated in the datasheet.
+    /// as indicated in the datasheet.
     return combined >> 1;
 }
 void Controller::setRTDHighFaultThresholdMsb(uint8_t msbThreshold)
@@ -109,6 +109,58 @@ void Controller::setRTDLowFaultThresholdMsb(uint8_t msbThreshold)
 void Controller::setRTDLowFaultThresholdLsb(uint8_t lsbThreshold)
 {
     writeRegister(register_write_address::low_fault_threshold_lsb, lsbThreshold);
+}
+
+std::vector<Fault> Controller::readFaults()
+{
+    const auto registerStatus = readRegister(register_read_address::fault_status);
+    std::vector<Fault> faults;
+    faults.reserve(7);
+
+    if (registerStatus & 0x80)
+    { // if D7 is set, then high threshold fault
+        faults.push_back(Fault::high_fault_threshold);
+    }
+
+    if (registerStatus & 0x40)
+    { // if D6 is set, then low threshold fault
+        faults.push_back(Fault::low_fault_threshold);
+    }
+
+    if (registerStatus & 0x20)
+    { // if D5 is set, then vREFIN- > 0.85 * vbias
+        faults.push_back(Fault::vrefin_gt_vbias);
+    }
+
+    if (registerStatus & 0x10)
+    { // if D4 is set, then vREFIN- < 0.85 * vBIAS
+        faults.push_back(Fault::vrefin_lt_vbias);
+    }
+
+    if (registerStatus & 0x08)
+    { // if D3 is set, then vRTDIN- < 0.85 * vBIAS
+        faults.push_back(Fault::vrtdin_lt_vbias);
+    }
+
+    if (registerStatus & 0x04)
+    { // if D2 is set, then there's an over/under voltage
+        faults.push_back(Fault::under_or_over_voltage);
+    }
+
+    return faults;
+}
+
+void Controller::clearFaults()
+{
+    /// page 14 of documentation
+    /// values needed to reset fault
+    const uint8_t clearValue = 0b0000'0010;
+
+    /// write the reset
+    writeRegister(register_write_address::configuration, clearValue);
+
+    /// restore the configuration settings
+    writeConfigurationSettings();
 }
 
 } // namespace max31865
