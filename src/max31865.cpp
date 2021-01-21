@@ -117,31 +117,50 @@ std::vector<Fault> Controller::readFaults()
     std::vector<Fault> faults;
     faults.reserve(7);
 
-    if (registerStatus & 0x80) { // if D7 is set, then high threshold fault
+    if (registerStatus & 0x80)
+    { // if D7 is set, then high threshold fault
         faults.push_back(Fault::high_fault_threshold);
     }
 
-    if (registerStatus & 0x40) { // if D6 is set, then low threshold fault
+    if (registerStatus & 0x40)
+    { // if D6 is set, then low threshold fault
         faults.push_back(Fault::low_fault_threshold);
     }
 
-    if (registerStatus & 0x20) { // if D5 is set, then vREFIN- > 0.85 * vbias
+    if (registerStatus & 0x20)
+    { // if D5 is set, then vREFIN- > 0.85 * vbias
         faults.push_back(Fault::vrefin_gt_vbias);
     }
 
-    if (registerStatus & 0x10) { // if D4 is set, then vREFIN- < 0.85 * vBIAS
+    if (registerStatus & 0x10)
+    { // if D4 is set, then vREFIN- < 0.85 * vBIAS
         faults.push_back(Fault::vrefin_lt_vbias);
     }
 
-    if (registerStatus & 0x08) { // if D3 is set, then vRTDIN- < 0.85 * vBIAS
+    if (registerStatus & 0x08)
+    { // if D3 is set, then vRTDIN- < 0.85 * vBIAS
         faults.push_back(Fault::vrtdin_lt_vbias);
     }
 
-    if (registerStatus & 0x04) { // if D2 is set, then there's an over/under voltage
+    if (registerStatus & 0x04)
+    { // if D2 is set, then there's an over/under voltage
         faults.push_back(Fault::under_or_over_voltage);
     }
 
     return faults;
+}
+
+void Controller::clearFaults()
+{
+    /// page 14 of documentation
+    /// values needed to reset fault
+    const uint8_t clearValue = 0b0000'0010;
+
+    /// write the reset
+    writeRegister(register_write_address::configuration, clearValue);
+
+    /// restore the configuration settings
+    writeConfigurationSettings();
 }
 
 } // namespace max31865

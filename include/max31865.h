@@ -10,6 +10,21 @@
 #include <cstring>
 #include <vector>
 
+/// Communication is done through eight 8-bit registers that contain data
+/// Reads with 0xh
+/// Writes with 8xh
+
+/*
+ * Configuration Register (00h)
+ * D7 = BIAS - only really useful for one-shot
+ * D6 = ConversionMode; 1 == automatic
+ * D5 = 1-Shot; 1 then CS to do a single conversion
+ * D4 = 3-wire; 1 == 3wire, 0 means 2/4 wire
+ * D3+D2 = Fault Detection
+ * D1 = Fault Status Clear
+ * D0 = 50/60Hz filter; 1 == 50, 0 == 60
+ */
+
 /// Driver for the max31865 on the esp32 using the esp-idf SDK.
 /// Goal of this driver is to wrap only the max31865 functionality, temperature conversion will be a separate module
 ///
@@ -87,22 +102,10 @@ enum struct bias_state : uint8_t
     on = 1
 };
 
-/// Communication is done through eight 8-bit registers that contain data
-/// Reads with 0xh
-/// Writes with 8xh
-
-/*
- * Configuration Register (00h)
- * D7 = BIAS - only really useful for one-shot
- * D6 = ConversionMode; 1 == automatic
- * D5 = 1-Shot; 1 then CS to do a single conversion
- * D4 = 3-wire; 1 == 3wire, 0 means 2/4 wire
- * D3+D2 = Fault Detection
- * D1 = Fault Status Clear
- * D0 = 50/60Hz filter; 1 == 50, 0 == 60
- */
-
-enum struct Fault {
+/// Various faults that can happen in the max31865
+/// Hopefully this will further evolve into a better solution
+enum struct Fault
+{
     high_fault_threshold,
     low_fault_threshold,
     vrefin_gt_vbias,
@@ -159,7 +162,7 @@ class Controller
     /// \param cf
     void setFilter(configuration_filter cf = configuration_filter::hz60);
 
-    ///
+    /// write the Configuration settings to the max31865
     void writeConfigurationSettings();
 
     /// Reads and combines the lsb and msb register for RTD
@@ -175,6 +178,8 @@ class Controller
     /// Return a list of set faults
     std::vector<Fault> readFaults();
 
+    /// Clear faults
+    void clearFaults();
 };
 
 } // namespace max31865
