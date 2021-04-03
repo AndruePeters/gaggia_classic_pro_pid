@@ -10,6 +10,7 @@
 #include "lvgl/lvgl.h"
 
 
+
 /*********************
  *      DEFINES
  *********************/
@@ -48,7 +49,8 @@ static lv_obj_t * kb;
 
 static lv_obj_t * slider_label;
 static lv_style_t style_box;
-
+static lv_style_t labelStyle;
+lv_obj_t *tempLabel;
 static lv_style_t temperatureText;
 
 /**********************
@@ -93,6 +95,14 @@ void lv_demo_widgets(void)
     visuals_create(t2);
     selectors_create(t3);
     settings_create(t4);
+
+    float newTemp = 100;
+    
+    lv_style_init(&labelStyle);
+    lv_label_set_text_fmt(tempLabel, "%.2f", newTemp);
+    lv_style_set_text_font(&labelStyle, LV_STATE_DEFAULT, &lv_font_montserrat_48);    
+    lv_obj_add_style(tempLabel, LV_OBJ_PART_MAIN, &labelStyle);
+
 }
 
 /**********************
@@ -399,11 +409,14 @@ static void settings_create(lv_obj_t * parent)
 
 
     float temp = 94.6;
+ 
 
-    lv_obj_t *label = lv_label_create(parent, NULL);
-    lv_obj_align(label, NULL, LV_ALIGN_CENTER, 0, 0);
-    lv_label_set_align(label, LV_LABEL_ALIGN_CENTER);
-    lv_label_set_text_fmt(label, "%.2f", temp);
+    tempLabel = lv_label_create(parent, NULL);
+    lv_obj_align(tempLabel, NULL, LV_ALIGN_CENTER, 0, 0);
+    lv_label_set_align(tempLabel, LV_LABEL_ALIGN_CENTER);
+
+    
+    lv_label_set_text_fmt(tempLabel, "%.2f", temp);
 
 }
 

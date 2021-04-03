@@ -17,6 +17,11 @@
 #include "lv_drivers/display/monitor.h"
 #include "lv_drivers/indev/mouse.h"
 #include "lv_demo_widgets.h"
+
+#include <assert.h>
+
+extern lv_obj_t *tempLabel;
+
 /*********************
  *      DEFINES
  *********************/
@@ -57,6 +62,10 @@ int main(int argc, char **argv)
   hal_init();
 
   lv_demo_widgets();
+  printf("dump\n");
+  assert(tempLabel != NULL);
+  float temp = 0;
+
 //  lv_demo_printer();
 
   while (1) {
@@ -64,6 +73,8 @@ int main(int argc, char **argv)
      * It could be done in a timer interrupt or an OS task too.*/
     lv_task_handler();
     usleep(5 * 1000);
+    temp += 0.5;
+    lv_label_set_text_fmt(tempLabel, "%.2f", temp);
   }
 
   return 0;

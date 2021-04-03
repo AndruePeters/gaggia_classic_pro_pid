@@ -10,6 +10,8 @@
 extern "C" {
 #endif
 
+extern lv_obj_t *tempLabel;
+
 /*********************
  *      INCLUDES
  *********************/
